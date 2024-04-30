@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/prakharpratap/codes/api/.venv"
+VIRTUAL_ENV="/Users/josesalvatierra/Documents/Teclado/Local Course Copies/REST APIs with Flask and Python/docs/docs/12_task_queues_emails/06_sending_html_emails/end/.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

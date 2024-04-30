@@ -1,4 +1,6 @@
-#!/Users/prakharpratap/codes/api/.venv/bin/python3.10
+#!/bin/sh
+'''exec' "/Users/josesalvatierra/Documents/Teclado/Local Course Copies/REST APIs with Flask and Python/docs/docs/12_task_queues_emails/06_sending_html_emails/end/.venv/bin/python" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
