@@ -48,9 +48,9 @@ class LinkTagsToItem(MethodView):
             db.session.commit()
         except SQLAlchemyError:
             abort(500, message="An error occurred while inserting the tag.")
-        
+
         return tag
-    
+
     @blp.response(200, TagAndItemSchema)
     def delete(self, item_id, tag_id):
         item = ItemModel.query.get_or_404(item_id)
@@ -73,7 +73,7 @@ class Tag(MethodView):
     def get(self, tag_id):
         tag = TagModel.query.get_or_404(tag_id)
         return tag
-    
+
     @blp.response(
         202,
         description="Deletes a tag if no item is tagged with it.",
@@ -95,3 +95,4 @@ class Tag(MethodView):
             400,
             message="Could not delete tag. Make sure tag is not associated with any items, then try again.",
         )
+
