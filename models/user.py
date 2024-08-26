@@ -2,6 +2,9 @@ from db import db
 
 
 class UserModel(db.Model):
+    """
+    UserModel class is a model class that represents a user in the database.
+    """
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)

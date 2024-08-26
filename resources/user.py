@@ -29,8 +29,14 @@ queue = Queue("emails", connection=connection)
 
 @blp.route("/register")
 class UserRegister(MethodView):
+    """
+    UserRegister class is a view class that represents user registration.
+    """
     @blp.arguments(UserRegisterSchema)
     def post(self, user_data):
+        """
+        Register a new user.
+        """
         if UserModel.query.filter(
             or_(
                 UserModel.username == user_data["username"],
@@ -55,8 +61,14 @@ class UserRegister(MethodView):
 
 @blp.route("/login")
 class UserLogin(MethodView):
+    """
+    UserLogin class is a view class that represents user login.
+    """
     @blp.arguments(UserSchema)
     def post(self, user_data):
+        """
+        Log in a user.
+        """
         user = UserModel.query.filter(
             UserModel.username == user_data["username"]
         ).first()
@@ -73,8 +85,14 @@ class UserLogin(MethodView):
 
 @blp.route("/refresh")
 class TokenRefresh(MethodView):
+    """
+    TokenRefresh class is a view class that represents token refresh.
+    """
     @jwt_required(refresh=True)
     def post(self):
+        """
+        Refresh a token.
+        """
         current_user = get_jwt_identity()
         new_token = create_access_token(identity=current_user, fresh=False)
         return {"access_token": new_token}
@@ -82,8 +100,14 @@ class TokenRefresh(MethodView):
 
 @blp.route("/logout")
 class UserLogout(MethodView):
+    """
+    UserLogout class is a view class that represents user logout.
+    """
     @jwt_required()
     def post(self):
+        """
+        Log out a user.
+        """
         jti = get_jwt()["jti"]
         BLOCKLIST.add(jti)
         return {"message": "Successfully logged out."}
@@ -91,12 +115,21 @@ class UserLogout(MethodView):
 
 @blp.route("/user/<int:user_id>")
 class User(MethodView):
+    """
+    User class is a view class that represents a user in the database.
+    """
     @blp.response(200, UserSchema)
     def get(self, user_id):
+        """
+        Get a user by its ID.
+        """
         user = UserModel.query.get_or_404(user_id)
         return user
 
     def delete(self, user_id):
+        """
+        Delete a user by its ID.
+        """
         user = UserModel.query.get_or_404(user_id)
         db.session.delete(user)
         db.session.commit()

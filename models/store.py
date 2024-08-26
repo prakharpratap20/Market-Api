@@ -2,6 +2,9 @@ from db import db
 
 
 class StoreModel(db.Model):
+    """
+    StoreModel class is a model class that represents a store in the database.
+    """
     __tablename__ = "stores"
 
     id = db.Column(db.Integer, primary_key=True)

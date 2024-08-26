@@ -12,14 +12,23 @@ blp = Blueprint("Items", __name__, description="Operations on items")
 
 @blp.route("/item/<int:item_id>")
 class Item(MethodView):
+    """
+    Item class is a view class that represents an item in the database.
+    """
     @jwt_required()
     @blp.response(200, ItemSchema)
     def get(self, item_id):
+        """
+        Get an item by its ID.
+        """
         item = ItemModel.query.get_or_404(item_id)
         return item
 
     @jwt_required()
     def delete(self, item_id):
+        """
+        Delete an item by its ID.
+        """
         jwt = get_jwt()
         if not jwt.get("is_admin"):
             abort(401, message="Admin privilege required.")
@@ -32,6 +41,9 @@ class Item(MethodView):
     @blp.arguments(ItemUpdateSchema)
     @blp.response(200, ItemSchema)
     def put(self, item_data, item_id):
+        """
+        Update an item by its ID.
+        """
         item = ItemModel.query.get(item_id)
         if item:
             item.price = item_data["price"]
@@ -47,15 +59,24 @@ class Item(MethodView):
 
 @blp.route("/item")
 class ItemList(MethodView):
+    """
+    ItemList class is a view class that represents a list of items in the database.
+    """
     @jwt_required()
     @blp.response(200, ItemSchema(many=True))
     def get(self):
+        """
+        Get a list of items.
+        """
         return ItemModel.query.all()
 
     @jwt_required(fresh=True)
     @blp.arguments(ItemSchema)
     @blp.response(201, ItemSchema)
     def post(self, item_data):
+        """
+        Create a new item.
+        """
         item = ItemModel(**item_data)
 
         try:

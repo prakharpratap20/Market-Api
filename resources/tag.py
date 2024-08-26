@@ -11,8 +11,14 @@ blp = Blueprint("Tags", "tags", description="Operations on tags")
 
 @blp.route("/store/<int:store_id>/tag")
 class TagsInStore(MethodView):
+    """
+    TagsInStore class is a view class that represents tags in a store.
+    """
     @blp.response(200, TagSchema(many=True))
     def get(self, store_id):
+        """
+        Get tags in a store by its ID.
+        """
         store = StoreModel.query.get_or_404(store_id)
 
         return store.tags.all()
@@ -20,6 +26,9 @@ class TagsInStore(MethodView):
     @blp.arguments(TagSchema)
     @blp.response(201, TagSchema)
     def post(self, tag_data, store_id):
+        """
+        Create a new tag in a store by its ID.
+        """
         tag = TagModel(**tag_data, store_id=store_id)
 
         try:
@@ -36,8 +45,14 @@ class TagsInStore(MethodView):
 
 @blp.route("/item/<int:item_id>/tag/<int:tag_id>")
 class LinkTagsToItem(MethodView):
+    """
+    LinkTagsToItem class is a view class that represents linking tags to an item.
+    """
     @blp.response(201, TagSchema)
     def post(self, item_id, tag_id):
+        """
+        Link a tag to an item by their IDs.
+        """
         item = ItemModel.query.get_or_404(item_id)
         tag = TagModel.query.get_or_404(tag_id)
 
@@ -53,6 +68,9 @@ class LinkTagsToItem(MethodView):
 
     @blp.response(200, TagAndItemSchema)
     def delete(self, item_id, tag_id):
+        """
+        Unlink a tag from an item by their IDs.
+        """
         item = ItemModel.query.get_or_404(item_id)
         tag = TagModel.query.get_or_404(tag_id)
 
@@ -69,8 +87,14 @@ class LinkTagsToItem(MethodView):
 
 @blp.route("/tag/<int:tag_id>")
 class Tag(MethodView):
+    """
+    Tag class is a view class that represents a tag in the database.
+    """
     @blp.response(200, TagSchema)
     def get(self, tag_id):
+        """
+        Get a tag by its ID.
+        """
         tag = TagModel.query.get_or_404(tag_id)
         return tag
 
@@ -85,6 +109,9 @@ class Tag(MethodView):
         description="Returned if the tag is assigned to one or more items. In this case, the tag is not deleted."
     )
     def delete(self, tag_id):
+        """
+        Delete a tag by its ID.
+        """
         tag = TagModel.query.get_or_404(tag_id)
 
         if not tag.items:
@@ -95,4 +122,3 @@ class Tag(MethodView):
             400,
             message="Could not delete tag. Make sure tag is not associated with any items, then try again.",
         )
-

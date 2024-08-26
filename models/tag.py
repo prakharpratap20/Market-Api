@@ -2,6 +2,9 @@ from db import db
 
 
 class TagModel(db.Model):
+    """
+    TagModel class is a model class that represents a tag in the database.
+    """
     __tablename__ = "tags"
 
     id = db.Column(db.Integer, primary_key=True)

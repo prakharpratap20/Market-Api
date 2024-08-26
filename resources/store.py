@@ -13,12 +13,21 @@ blp = Blueprint("stores", __name__, description="Operations on stores")
 
 @blp.route("/store/<int:store_id>")
 class Store(MethodView):
+    """
+    Store class is a view class that represents a store in the database.
+    """
     @blp.response(200, StoreSchema)
     def get(self, store_id):
+        """
+        Get a store by its ID.
+        """
         store = StoreModel.query.get_or_404(store_id)
         return store
 
     def delete(self, store_id):
+        """
+        Delete a store by its ID.
+        """
         store = StoreModel.query.get_or_404(store_id)
         db.session.delete(store)
         db.session.commit()
@@ -27,13 +36,22 @@ class Store(MethodView):
 
 @blp.route("/store")
 class StoreList(MethodView):
+    """
+    StoreList class is a view class that represents a list of stores in the database.
+    """
     @blp.response(200, StoreSchema(many=True))
     def get(self):
+        """
+        Get a list of stores.
+        """
         return StoreModel.query.all()
 
     @blp.arguments(StoreSchema)
     @blp.response(200, StoreSchema)
     def post(self, store_data):
+        """
+        Create a new store.
+        """
         store = StoreModel(**store_data)
         try:
             db.session.add(store)

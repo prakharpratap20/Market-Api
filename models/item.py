@@ -3,6 +3,9 @@ from db import db
 
 
 class ItemModel(db.Model):
+    """
+    ItemModel class is a model class that represents an item in the database.
+    """
     __tablename__ = "items"
 
     id = db.Column(db.Integer, primary_key=True)
